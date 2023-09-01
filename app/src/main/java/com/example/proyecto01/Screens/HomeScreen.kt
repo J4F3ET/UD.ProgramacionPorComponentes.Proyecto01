@@ -1,18 +1,17 @@
 package com.example.proyecto01.Screens
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,19 +64,12 @@ fun HomeBodyContent(navController: NavController ){
                 )
             )
         )
-        Button(
-            onClick = {
-                      navController.navigate(route= AppScreens.GameScreen.router)
+        TextButton(
+            onClick ={
+                navController.navigate(route = AppScreens.GameScreen.router)
             },
-            modifier = Modifier
-                .padding(16.dp)
-                .background(Color.Transparent)
-                .border(
-                    width = 0.1.dp,
-                    color = Color.White, // Color de la línea inferior
-                    shape = MaterialTheme.shapes.small
-                ), // Fondo transparente
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+            modifier = Modifier.padding(16.dp).background(Color.Transparent),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         ) {
             // Contenido del botón
             Text(text = "Jugar",
@@ -92,3 +84,4 @@ fun HomeBodyContent(navController: NavController ){
         }
     }
 }
+

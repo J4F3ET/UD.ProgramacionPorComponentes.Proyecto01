@@ -62,7 +62,7 @@ fun BackgroundImage() {
 fun InfiniteTransicionSky() {
     val infiniteTransition = rememberInfiniteTransition()
     val positionSky1 by infiniteTransition.animateFloat(
-        initialValue = 0.0f, // Inicia desde la parte derecha (0 es la posición más a la derecha)
+        initialValue = 100.0f, // Inicia desde la parte derecha (0 es la posición más a la derecha)
         targetValue = -100.0f, // Termina a la izquierda (por ejemplo, a -100)
         animationSpec = infiniteRepeatable(
             animation = tween(30000, delayMillis = 100, easing = FastOutLinearInEasing),
@@ -71,7 +71,7 @@ fun InfiniteTransicionSky() {
     )
     val positionSky2 by infiniteTransition.animateFloat(
         initialValue = -100.0f, // Inicia desde la parte derecha (0 es la posición más a la derecha)
-        targetValue = 0.0f, // Termina a la izquierda (por ejemplo, a -100)
+        targetValue = 60.0f, // Termina a la izquierda (por ejemplo, a -100)
         animationSpec = infiniteRepeatable(
             animation = tween(60000, delayMillis = 100, easing = FastOutLinearInEasing),
             repeatMode = RepeatMode.Reverse
