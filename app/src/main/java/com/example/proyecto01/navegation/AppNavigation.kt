@@ -1,10 +1,10 @@
-package com.example.proyecto01.Navegation
+package com.example.proyecto01.navegation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyecto01.Screens.*
+import com.example.proyecto01.screens.*
 
 @Composable
 fun AppNavigation(){

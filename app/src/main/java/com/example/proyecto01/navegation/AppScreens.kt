@@ -1,4 +1,4 @@
-package com.example.proyecto01.Navegation
+package com.example.proyecto01.navegation
 
 sealed class AppScreens(val router: String){
     object HomeScreen:AppScreens("homeScreen")

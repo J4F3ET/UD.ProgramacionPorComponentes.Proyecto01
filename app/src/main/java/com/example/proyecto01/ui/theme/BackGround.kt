@@ -26,23 +26,23 @@ fun BackgroundImage() {
         Image(
             painter = painterResource(id = R.drawable.sky),
             modifier = Modifier
-                .fillMaxWidth() // Ancho de la imagen igual al ancho de la pantalla
-                .align(Alignment.TopStart),
+                .fillMaxSize() // Ancho de la imagen igual al ancho de la pantalla
+                .align(Alignment.Center),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
         Image(
             painter = painterResource(id = R.drawable.rocks),
             modifier = Modifier
-                .fillMaxWidth() // Ancho de la imagen igual al ancho de la pantalla
-                .align(Alignment.BottomEnd),
+                .fillMaxSize() // Ancho de la imagen igual al ancho de la pantalla
+                .align(Alignment.Center),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
         )
         Image(
             painter = painterResource(id = R.drawable.ground_1),
             modifier = Modifier
-                .fillMaxWidth() // Ancho de la imagen igual al ancho de la pantalla
+                .fillMaxSize() // Ancho de la imagen igual al ancho de la pantalla
                 .align(Alignment.Center),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
@@ -50,7 +50,7 @@ fun BackgroundImage() {
         Image(
             painter = painterResource(id = R.drawable.plant),
             modifier = Modifier
-                .fillMaxWidth() // Ancho de la imagen igual al ancho de la pantalla
+                .fillMaxSize() // Ancho de la imagen igual al ancho de la pantalla
                 .align(Alignment.Center),
             contentDescription = null,
             contentScale = ContentScale.FillBounds
