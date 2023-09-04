@@ -28,29 +28,11 @@ fun GameScreen(navController: NavController){
     fun updateGame() {
         currentThrow1 = (1..6).random()
         currentThrow2 = (1..6).random()
-        gameState = updateGameState(currentThrow1+currentThrow2,gameState)
-        /*
-        val position = currentThrow1+currentThrow2
-        var updatedBoard = gameState.board.toMutableList()
-        val currentPlayer = gameState.currentPlayer
-        val currentPosition = gameState.selectedCell // selectCell Corresponde a la posicion actual del jugador actual
-        val newPosition = if(position+currentPosition >= 100){100}else{position+currentPosition}
-        val positionPlayerOpossite = updatedBoard.indexOfFirst { cell ->
-            (gameState.currentPlayer == Player.PLAYER_A && cell.player2 == Player.PLAYER_B) ||
-                    (gameState.currentPlayer == Player.PLAYER_B && cell.player == Player.PLAYER_A)
-        }
-        updatedBoard[currentPosition] = updateCell(updatedBoard[currentPosition].copy(),true,currentPlayer)
-        updatedBoard[newPosition] = updateCell(updatedBoard[newPosition].copy(),false,currentPlayer)
-
-        gameState.board = updatedBoard
-        gameState.selectedCell = positionPlayerOpossite
-        gameState.currentPlayer =  if (gameState.currentPlayer == Player.PLAYER_A) Player.PLAYER_B else Player.PLAYER_A
-        gameState = gameState.copy(
-            board = updatedBoard,
-            selectedCell = positionPlayerOpossite,
-            currentPlayer = if (gameState.currentPlayer == Player.PLAYER_A) Player.PLAYER_B else Player.PLAYER_A
-        )
-         */
+        gameState.currentPlayer.peerCounts = if(currentThrow1==6 || currentThrow2 == 6) gameState.currentPlayer.peerCounts++ else 0
+        if (gameState.winner == null)
+            gameState = updateGameState(currentThrow1+currentThrow2,gameState)
+        else
+            gameState
     }
     Scaffold(
         topBar = {topBarGameScreen(navController,gameState)},

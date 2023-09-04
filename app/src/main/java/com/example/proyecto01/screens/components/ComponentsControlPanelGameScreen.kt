@@ -31,14 +31,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.proyecto01.R
 import com.example.proyecto01.services.GameState
+import com.example.proyecto01.services.Player
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,10 +68,17 @@ fun titleTopBarGameScreen(navController:NavController,gameState: GameState){
                 tint = Color.White
             )
         }
-        Column {
+        Column{
             Image(
-                painter = painterResource(id = R.drawable.ghost),
-                modifier = Modifier.size(35.dp),
+                painter = painterResource(id = Player.PLAYER_A.imgDraw),
+                modifier = Modifier.size(35.dp).border(
+                    width = 1.dp,
+                    shape= ExtraSmall,
+                    color = if(gameState.currentPlayer == Player.PLAYER_A)
+                        Color.White
+                    else
+                        Color.Transparent
+                ),
                 contentDescription = "playerImgControl",
             )
             Text(
@@ -95,11 +99,18 @@ fun titleTopBarGameScreen(navController:NavController,gameState: GameState){
         }
 
         Spacer(modifier = Modifier.width(8.dp)) // Espacio entre las imágenes
-        Column {
+        Column{
             Image(
-                painter = painterResource(id = R.drawable.blob),
-                modifier = Modifier.size(35.dp),
-                contentDescription = "playerImgControl",
+                painter = painterResource(id = Player.PLAYER_B.imgDraw),
+                modifier = Modifier.size(35.dp).border(
+                    width = 1.dp,
+                    shape = ExtraSmall,
+                    color = if(gameState.currentPlayer == Player.PLAYER_B)
+                        Color.White
+                    else
+                        Color.Transparent
+                ),
+                contentDescription = "playerImgControl"
             )
             Text(
                 text = "Jugador 2",
