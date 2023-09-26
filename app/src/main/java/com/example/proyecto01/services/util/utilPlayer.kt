@@ -7,12 +7,12 @@ fun selectPlayers(index:Int,board: List<BoardCell>): List<Player> {
     fun findPlayer(player: Player?) =
         when (player) {
             Player.PLAYER_A -> Player.PLAYER_A
-
             Player.PLAYER_B -> Player.PLAYER_B
             Player.PARACHUTE -> Player.PARACHUTE
             Player.ROCKET -> Player.ROCKET
             Player.MOON -> Player.MOON
             Player.GRASS -> Player.GRASS
+            Player.EARTH -> Player.EARTH
             else -> null
         }
     val players = (mutableListOf <Player>())

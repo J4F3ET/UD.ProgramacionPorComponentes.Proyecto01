@@ -9,7 +9,7 @@ fun createInitialBoard(): List<BoardCell> {
     val initialBoard = mutableListOf<BoardCell>()
     val listRocket = generateRocketPositions()
     val listParachute = generateParachutePositions()
-    for (position in 0..99) {
+    for (position in 0..(SettingGame.numCells)) {
         if (position == 0)
             initialBoard.add(BoardCell(position,Player.PLAYER_A,Player.PLAYER_B,null,null))
         else
@@ -26,38 +26,42 @@ fun createInitialBoard(): List<BoardCell> {
     return initialBoard
 }
 fun verificateEndDetourEntity(listRocket:List<Position>,listParachute:List<Position>,position:Int):Player?{
-    var detourParachute = listParachute.find { positionParachute ->positionParachute.endPosition == position}?.let{ Player.GRASS }
-    var detourRocket = listRocket.find { positionParachute ->positionParachute.endPosition == position}?.let{ Player.MOON }
+    val detourParachute = listParachute.find { positionParachute ->positionParachute.endPosition == position}?.let{ Player.GRASS }
+    val detourRocket = listRocket.find { positionParachute ->positionParachute.endPosition == position}?.let{ Player.EARTH }
     return detourParachute?:detourRocket
 }
 fun verificateEndDetour(listRocket:List<Position>,listParachute:List<Position>,position:Int):Position?{
-    var detourParachute = listParachute.find { positionParachute ->positionParachute.endPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
-    var detourRocket = listRocket.find { positionParachute ->positionParachute.endPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
+    val detourParachute = listParachute.find { positionParachute ->positionParachute.endPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
+    val detourRocket = listRocket.find { positionParachute ->positionParachute.endPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
     return detourParachute?:detourRocket
 }
 fun verificateStartDetourEntity(listRocket:List<Position>,listParachute:List<Position>,position:Int):Player?{
-    var detourParachute = listParachute.find { positionParachute ->positionParachute.startPosition == position}?.let{ Player.PARACHUTE }
-    var detourRocket = listRocket.find { positionParachute ->positionParachute.startPosition == position}?.let{ Player.ROCKET }
+    val detourParachute = listParachute.find { positionParachute ->positionParachute.startPosition == position}?.let{ Player.PARACHUTE }
+    val detourRocket = listRocket.find { positionParachute ->positionParachute.startPosition == position}?.let{ Player.ROCKET }
     return detourParachute?:detourRocket
 }
 fun verificateStartDetour(listRocket:List<Position>,listParachute:List<Position>,position:Int):Position?{
-    var detourParachute = listParachute.find { positionParachute ->positionParachute.startPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
-    var detourRocket = listRocket.find { positionParachute ->positionParachute.startPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
+    val detourParachute = listParachute.find { positionParachute ->positionParachute.startPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
+    val detourRocket = listRocket.find { positionParachute ->positionParachute.startPosition == position}?.let{ Position(it.startPosition, it.endPosition) }
     return detourParachute?:detourRocket
 }
 fun generateRocketPositions(): List<Position> {
     val rocketPositions = mutableListOf<Position>()
-    repeat(5) {
-        var start = (1 until 98).random()
-        var end = (start + 1 until 98).random()
+    val percentage98 = (SettingGame.numCells*0.98).toInt()
+    val percentage60 = (SettingGame.numCells*0.6).toInt()
+    val percentage10 = (SettingGame.numCells*0.1).toInt()
+    repeat(SettingGame.numShortcut) {
+        var start = (1 .. percentage60).random()
+        var end = (start + percentage10 .. percentage98).random()
         if (start > end) {
             val temp = start
             start = end
             end = temp
         }
+        // Evitar que combinaciones de start y end se repita
         while (rocketPositions.any { it.startPosition == start && it.endPosition == end }) {
-            start = (1 until 98).random()
-            end = (start + 1 until 98).random()
+            start = (1 .. percentage60).random()
+            end = (start + 10 .. percentage98).random()
             if (start > end) {
                 val temp = start
                 start = end
@@ -70,10 +74,12 @@ fun generateRocketPositions(): List<Position> {
 }
 fun generateParachutePositions(): List<Position> {
     val parachutePositions = mutableListOf<Position>()
-
-    repeat(5) {
-        var start = (50 until 98).random()
-        var end = (0..48).random()
+    val percentage98 = (SettingGame.numCells*0.98).toInt()
+    val percentage50 = (SettingGame.numCells*0.5).toInt()
+    val percentage40 = (SettingGame.numCells*0.4).toInt()
+    repeat(SettingGame.numShortcut) {
+        var start = (percentage50 .. percentage98).random()
+        var end = (1..percentage40).random()
 
         if (start < end) {
             val temp = start
@@ -81,8 +87,8 @@ fun generateParachutePositions(): List<Position> {
             end = temp
         }
         while (parachutePositions.any { it.startPosition == start && it.endPosition == end }) {
-            start = (1 until 98).random()
-            end = (0..48).random()
+            start = (1 .. percentage98).random()
+            end = (1..percentage40).random()
             if (start < end) {
                 val temp = start
                 start = end
@@ -94,7 +100,6 @@ fun generateParachutePositions(): List<Position> {
 
     return parachutePositions
 }
-
 fun createInitialGameState(): GameState {
     return GameState(
         board = createInitialBoard(),
@@ -104,10 +109,10 @@ fun createInitialGameState(): GameState {
     )
 }
 fun updateGameState(position:Int,gameState:GameState):GameState {
-    var updatedBoard = gameState.board.toMutableList()//Tablero actual
+    val updatedBoard = gameState.board.toMutableList()//Tablero actual
     val currentPlayer = gameState.currentPlayer // Jugador actual
     val currentPosition = gameState.selectedCell // Posicion actual del jugador actual
-    var newPosition = if(position+currentPosition >=99){99}else{position+currentPosition}//Posicion al que se movera la ficha
+    var newPosition = if(position+currentPosition >=(SettingGame.numCells-1)){(SettingGame.numCells-1)}else{position+currentPosition}//Posicion al que se movera la ficha
     val positionPlayerOpossite = updatedBoard.indexOfFirst { cell ->
                 (gameState.currentPlayer == Player.PLAYER_A && cell.player2 == Player.PLAYER_B)||
                 (gameState.currentPlayer == Player.PLAYER_B && cell.player == Player.PLAYER_A)
@@ -117,23 +122,23 @@ fun updateGameState(position:Int,gameState:GameState):GameState {
 
     newPosition = if(updatedBoard[newPosition].detour == null) newPosition else updatedBoard[newPosition].detour!!.endPosition//Si pa nueva ubicacion existe un
 
-    updatedBoard[currentPosition] = deletePlayerCell(updatedBoard[currentPosition].copy(),)//Elimina player de celda alctual
+    updatedBoard[currentPosition] = deletePlayerCell(updatedBoard[currentPosition].copy())//Elimina player de celda alctual
 
     updatedBoard[newPosition] = setPlayerCell(updatedBoard[newPosition].copy(),currentPlayer)//Agrega player de celda nueva
 
-    var newGameState = if(position==6 && gameState.winner == null && newPosition != 99){
+    val newGameState = if(position==6 && gameState.winner == null && newPosition != 99){
         GameState(
             board = updatedBoard,
             currentPlayer = currentPlayer,
             selectedCell = newPosition,
-            winner = if(newPosition == 100) currentPlayer else null
+            winner = if(newPosition == SettingGame.numCells) currentPlayer else null
         )
     }else{
         GameState(
             board = updatedBoard,
             currentPlayer = if (gameState.currentPlayer == Player.PLAYER_A) Player.PLAYER_B else Player.PLAYER_A,
             selectedCell = positionPlayerOpossite,
-            winner = if(newPosition == 100) currentPlayer else null
+            winner = if(newPosition == SettingGame.numCells) currentPlayer else null
         )
     }
     return newGameState

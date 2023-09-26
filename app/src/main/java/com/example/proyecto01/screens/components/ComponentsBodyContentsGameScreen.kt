@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.proyecto01.services.GameState
 import com.example.proyecto01.services.Player
+import com.example.proyecto01.services.util.SettingGame
 import com.example.proyecto01.services.util.selectPlayers
 @Composable
 fun GameBoard(gameState: GameState) {
@@ -41,7 +42,7 @@ fun GameBoard(gameState: GameState) {
         contentPadding = PaddingValues(all = 5.dp),
         reverseLayout = true
     ) {
-        items(100) { index ->
+        items(SettingGame.numCells) { index ->
             BuildCell(index+1,modifier = Modifier.size(10.dp,24.dp), *selectPlayers(index,gameState.board).toTypedArray())
         }
     }
