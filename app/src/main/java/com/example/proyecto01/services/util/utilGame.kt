@@ -1,11 +1,13 @@
 package com.example.proyecto01.services.util
 
+import android.content.Context
 import com.example.proyecto01.services.BoardCell
 import com.example.proyecto01.services.GameState
 import com.example.proyecto01.services.Player
 import com.example.proyecto01.services.Position
 
-fun createInitialBoard(): List<BoardCell> {
+fun createInitialBoard(): List<BoardCell>
+{
     val initialBoard = mutableListOf<BoardCell>()
     val listRocket = generateRocketPositions()
     val listParachute = generateParachutePositions()
@@ -126,7 +128,8 @@ fun updateGameState(position:Int,gameState:GameState):GameState {
 
     updatedBoard[newPosition] = setPlayerCell(updatedBoard[newPosition].copy(),currentPlayer)//Agrega player de celda nueva
 
-    val newGameState = if(position==6 && gameState.winner == null && newPosition != 99){
+
+    val newGameState = if(position==6 && gameState.winner == null && newPosition != SettingGame.numCells-1){
         GameState(
             board = updatedBoard,
             currentPlayer = currentPlayer,
@@ -142,4 +145,15 @@ fun updateGameState(position:Int,gameState:GameState):GameState {
         )
     }
     return newGameState
+}
+fun speak(viewModel: SoundViewModel, context: Context, gameState: GameState, oldGameState: GameState){
+    val stateViewModel = viewModel.state.value
+    var player:Player = oldGameState.currentPlayer
+    val positionPlayer = gameState.board.indexOfFirst { cell -> cell.player == player || cell.player2 == player}
+    var mensaje = if(gameState.board.get(positionPlayer).player == player)
+        "Jugador 1 esta en la posicion "+(positionPlayer+1)
+    else "Jugador 2 esta en la posicion "+(positionPlayer+1)
+    stateViewModel.text = mensaje
+    viewModel.onTextFieldValue(mensaje)
+    viewModel.textToSpeech(context)
 }

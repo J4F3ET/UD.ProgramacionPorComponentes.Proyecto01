@@ -69,6 +69,7 @@ dependencies {
     implementation("androidx.compose.animation:animation:X.Y.Z")
     implementation("com.google.android.engage:engage-core:1.2.1")
     implementation("com.airbnb.android:lottie-compose:6.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
