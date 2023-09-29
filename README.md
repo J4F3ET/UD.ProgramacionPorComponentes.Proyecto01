@@ -252,3 +252,5 @@ val newGameState = if(position==6 && newPosition != SettingGame.numCells-1){
     }
 ```
 Esta linea se encuentra el la funcion `updateGameState` del packete `package com.example.proyecto01.services.util` en el archivo `utilGame.kt`.
+## [APK ](\app\release)
+La apk se encuentra en la carpeta release del proyecto. `app\release\app-release.apk`
