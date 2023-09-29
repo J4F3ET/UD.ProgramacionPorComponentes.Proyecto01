@@ -124,7 +124,7 @@ fun updateGameState(position:Int,gameState:GameState):GameState {
 
     newPosition = if(gameState.currentPlayer.peerCounts == 3) 0 else newPosition // Si lleva tres "6" acumulados
 
-    newPosition = if(updatedBoard[newPosition].detour == null) newPosition else updatedBoard[newPosition].detour!!.endPosition//Si pa nueva ubicacion existe un
+    newPosition = if(updatedBoard[newPosition].detour == null) newPosition else updatedBoard[newPosition].detour!!.endPosition//Si para nueva ubicacion existe un detour (atajo)
 
     updatedBoard[currentPosition] = deletePlayerCell(updatedBoard[currentPosition].copy())//Elimina player de celda alctual
 
@@ -157,5 +157,11 @@ fun speak(viewModel: SoundViewModel, context: Context, gameState: GameState, old
     else "Jugador 2 esta en la posicion "+(positionPlayer+1)
     stateViewModel.text = mensaje
     viewModel.onTextFieldValue(mensaje)
+    viewModel.textToSpeech(context)
+}
+fun speakWinner(viewModel: SoundViewModel, context: Context, player: Player){
+    val stateViewModel = viewModel.state.value
+    stateViewModel.text = "Jugador " +if(player == Player.PLAYER_A){"1"} else {"2"} +" gano"
+    viewModel.onTextFieldValue(stateViewModel.text)
     viewModel.textToSpeech(context)
 }

@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyecto01.services.Player
 import com.example.proyecto01.services.util.SoundViewModel
 import com.example.proyecto01.services.util.speak
+import com.example.proyecto01.services.util.speakWinner
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NewApi")
@@ -39,6 +40,10 @@ fun GameScreen(navController: NavController,viewModel: SoundViewModel = viewMode
         gameState.currentPlayer.peerCounts = if(currentThrow1==6 || currentThrow2 == 6) gameState.currentPlayer.peerCounts++ else 0
         gameState = if (gameState.winner == null)updateGameState(currentThrow1 + currentThrow2, gameState)else gameState
         speak(viewModel, context ,gameState,oldGameState)
+        gameState.winner?.let { winner ->
+            speakWinner(viewModel, context, winner)
+        }
+
     }
     Scaffold(
         topBar = {topBarGameScreen(navController,gameState)},
