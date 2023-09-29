@@ -19,6 +19,7 @@ import com.example.proyecto01.services.util.createInitialGameState
 import com.example.proyecto01.services.util.updateGameState
 import com.example.proyecto01.ui.theme.BackgroundImage
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.proyecto01.services.Player
 import com.example.proyecto01.services.util.SoundViewModel
 import com.example.proyecto01.services.util.speak
 
@@ -31,6 +32,7 @@ fun GameScreen(navController: NavController,viewModel: SoundViewModel = viewMode
     var currentThrow2 by remember { mutableStateOf(0) }
     val context = LocalContext.current
     fun updateGame() {
+        if (gameState.winner != null) return
         val oldGameState = gameState.copy()
         currentThrow1 = (1..6).random()
         currentThrow2 = (1..6).random()

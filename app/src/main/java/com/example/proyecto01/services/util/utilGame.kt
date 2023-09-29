@@ -5,6 +5,7 @@ import com.example.proyecto01.services.BoardCell
 import com.example.proyecto01.services.GameState
 import com.example.proyecto01.services.Player
 import com.example.proyecto01.services.Position
+import javax.annotation.meta.When
 
 fun createInitialBoard(): List<BoardCell>
 {
@@ -111,6 +112,7 @@ fun createInitialGameState(): GameState {
     )
 }
 fun updateGameState(position:Int,gameState:GameState):GameState {
+    if(gameState.winner != null) return gameState
     val updatedBoard = gameState.board.toMutableList()//Tablero actual
     val currentPlayer = gameState.currentPlayer // Jugador actual
     val currentPosition = gameState.selectedCell // Posicion actual del jugador actual
@@ -129,19 +131,19 @@ fun updateGameState(position:Int,gameState:GameState):GameState {
     updatedBoard[newPosition] = setPlayerCell(updatedBoard[newPosition].copy(),currentPlayer)//Agrega player de celda nueva
 
 
-    val newGameState = if(position==6 && gameState.winner == null && newPosition != SettingGame.numCells-1){
+    val newGameState = if(position==6 && newPosition != SettingGame.numCells-1){
         GameState(
             board = updatedBoard,
             currentPlayer = currentPlayer,
             selectedCell = newPosition,
-            winner = if(newPosition == SettingGame.numCells) currentPlayer else null
+            winner = null
         )
     }else{
         GameState(
             board = updatedBoard,
             currentPlayer = if (gameState.currentPlayer == Player.PLAYER_A) Player.PLAYER_B else Player.PLAYER_A,
             selectedCell = positionPlayerOpossite,
-            winner = if(newPosition == SettingGame.numCells) currentPlayer else null
+            winner = if(newPosition == SettingGame.numCells-1) currentPlayer else null
         )
     }
     return newGameState

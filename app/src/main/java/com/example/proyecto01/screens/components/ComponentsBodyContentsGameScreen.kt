@@ -1,5 +1,6 @@
 package com.example.proyecto01.screens.components
 
+import android.graphics.Paint.Style
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ShapeDefaults.ExtraSmall
 import androidx.compose.material3.Text
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieConstants
 import com.example.proyecto01.services.GameState
@@ -43,12 +45,12 @@ fun GameBoard(gameState: GameState) {
         reverseLayout = true
     ) {
         items(SettingGame.numCells) { index ->
-            BuildCell(index+1,modifier = Modifier.size(10.dp,24.dp), *selectPlayers(index,gameState.board).toTypedArray())
+            BuildCell(index,modifier = Modifier.size(10.dp,24.dp),gameState, *selectPlayers(index,gameState.board).toTypedArray())
         }
     }
 }
 @Composable
-fun BuildCell(index:Int,modifier: Modifier,vararg  players: Player?){
+fun BuildCell(index:Int,modifier: Modifier,gameState: GameState,vararg  players: Player?){
     Box(
         modifier = modifier
             .background(Color.Transparent)
@@ -58,7 +60,7 @@ fun BuildCell(index:Int,modifier: Modifier,vararg  players: Player?){
         Row{
             Column{
                 Text(
-                    text = "$index",
+                    text = "${index+1}",
                     color = Color.White,
                     style = TextStyle(
                         color = Color.White,
@@ -79,6 +81,20 @@ fun BuildCell(index:Int,modifier: Modifier,vararg  players: Player?){
                                 isPlaying = true, // La animación está en reproducción
                                 restartOnPlay = true, // La animación se reinicia cada vez que se reanuda
                                 iterations = LottieConstants.IterateForever
+                            )
+                        }
+                    }
+                    if (player == Player.ROCKET || player == Player.PARACHUTE){
+                        Column{
+                            Text(
+                                text = "${gameState.board[index].detour?.endPosition?.plus(1)}",
+                                style = TextStyle(
+                                    color = Color.Yellow,
+                                    fontSize = 8.sp, // Cambia el tamaño del texto
+                                    lineHeight = 12.5.sp, // Ajusta la altura de línea
+                                    letterSpacing = 0.sp,
+                                    fontStyle = FontStyle.Italic
+                                )
                             )
                         }
                     }
